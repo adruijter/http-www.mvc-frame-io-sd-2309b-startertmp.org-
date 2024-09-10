@@ -53,6 +53,8 @@ class Countries extends BaseController
     {
         $data = [
             'title' => 'Voeg een nieuw land toe',
+            'message' => '',
+            'messageColor' => '',
             'country' => '',
             'capitalCity' => '',
             'continent' => '',
@@ -91,15 +93,17 @@ class Countries extends BaseController
                  */
                 $result = $this->countryModel->createCountry($_POST);
 
-                echo '<div class="alert alert-success" role="alert">
-                        Uw gegevens zijn opgeslagen. U wordt doorgestuurd naar de index-pagina.
-                      </div>';
+                $data['message'] = 'Uw gegevens zijn opgeslagen. U wordt doorgestuurd naar de homepagina';
+                $data['messageColor'] = 'success';
 
                 /**
                  * Na het opslaan van de formulier wordt de gebruiker teruggeleid naar de index-pagina
                  */
                 header("Refresh:3; url=" . URLROOT . "/countries/index");
             } else {
+                $data['message'] = 'Een of meerdere velden zijn niet goed ingevuld';
+                $data['messageColor'] = 'danger';
+
                 $this->view('countries/create', $data);
             }
         }
@@ -155,7 +159,7 @@ class Countries extends BaseController
            'message' => 'Het record is verwijderd. U wordt doorgestuurd naar de index-pagina.'
        ];
 
-       header("Refresh:3; " . URLROOT . "/countries/index");
+       header("Refresh:1; " . URLROOT . "/countries/index");
 
        $this->view('countries/delete', $data);
     }
