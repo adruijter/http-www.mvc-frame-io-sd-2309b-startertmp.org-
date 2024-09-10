@@ -51,6 +51,18 @@ class Countries extends BaseController
      */
     public function create()
     {
+        $data = [
+            'title' => 'Voeg een nieuw land toe',
+            'country' => '',
+            'capitalCity' => '',
+            'continent' => '',
+            'population' => '',
+            'countryError' => '',
+            'capitalCityError' => '',
+            'continentError' => '',
+            'populationError' => ''
+        ];
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             /**
              * Maak het $_POST-array schoon van ongewenste tekens en tags
@@ -58,17 +70,10 @@ class Countries extends BaseController
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             // var_dump($_POST);
-
-            $data = [
-                'country' => $_POST['country'],
-                'capitalCity' => $_POST['capitalCity'],
-                'continent' => $_POST['continent'],
-                'population' => $_POST['population'],
-                'countryError' => '',
-                'capitalCityError' => '',
-                'continentError' => '',
-                'populationError' => ''
-            ];
+            $data['country'] = $_POST['country'];
+            $data['capitalCity'] = $_POST['capitalCity'];
+            $data['continent'] = $_POST['continent'];
+            $data['population'] = $_POST['population'];
 
             // var_dump($data);
 
@@ -95,19 +100,9 @@ class Countries extends BaseController
                  */
                 header("Refresh:3; url=" . URLROOT . "/countries/index");
             } else {
-                $data['title'] = "Nieuw land toevoegen";
                 $this->view('countries/create', $data);
-
             }
-
-
-
         }
-
-        $data = [
-            'title' => 'Nieuw land toevoegen'
-        ];
-
         $this->view('countries/create', $data);
     }
 
