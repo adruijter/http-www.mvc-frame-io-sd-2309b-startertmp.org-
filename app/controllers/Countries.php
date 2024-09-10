@@ -72,16 +72,12 @@ class Countries extends BaseController
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             // var_dump($_POST);
-            $data['country'] = $_POST['country'];
-            $data['capitalCity'] = $_POST['capitalCity'];
-            $data['continent'] = $_POST['continent'];
-            $data['population'] = $_POST['population'];
-
-            // var_dump($data);
+            $data['country'] = trim($_POST['country']);
+            $data['capitalCity'] = trim($_POST['capitalCity']);
+            $data['continent'] = trim($_POST['continent']);
+            $data['population'] = trim($_POST['population']);
 
             $data = $this->validateCreateForm($data);
-
-            // var_dump($data);
 
             /**
              * Wanneer alle Error-keys uit $data leeg zijn kunnen we wegschrijven naar de database
@@ -93,18 +89,16 @@ class Countries extends BaseController
                  */
                 $result = $this->countryModel->createCountry($_POST);
 
-                $data['message'] = 'Uw gegevens zijn opgeslagen. U wordt doorgestuurd naar de homepagina';
-                $data['messageColor'] = 'success';
+                $data['message'] = FORM_SUCCESS;
+                $data['messageColor'] = FORM_SUCCESS_COLOR;
 
                 /**
                  * Na het opslaan van de formulier wordt de gebruiker teruggeleid naar de index-pagina
                  */
                 header("Refresh:3; url=" . URLROOT . "/countries/index");
             } else {
-                $data['message'] = 'Een of meerdere velden zijn niet goed ingevuld';
-                $data['messageColor'] = 'danger';
-
-                $this->view('countries/create', $data);
+                $data['message'] = FORM_DANGER;
+                $data['messageColor'] = FORM_DANGER_COLOR;
             }
         }
         $this->view('countries/create', $data);
