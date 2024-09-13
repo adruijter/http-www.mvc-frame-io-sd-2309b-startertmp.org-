@@ -86,6 +86,8 @@ class Countries extends BaseController
             if ( 
                 empty($data['countryError']) 
                 && empty($data['capitalCityError'])
+                && empty($data['continentError'])
+                && empty($data['populationError'])
             ) {
                 /**
                  * Roep de createCountry methode aan van het countryModel object waardoor
@@ -121,6 +123,13 @@ class Countries extends BaseController
         if ( empty($data['capitalCity'])) {
             $data['capitalCityError'] = 'Het is verplicht de naam van de hoofdstad in te vullen!';
         }
+        if ( empty($data['continent'])) {
+            $data['continentError'] = 'Het is verplicht de naam van het continent in te vullen!';
+        }
+        if ( empty($data['population'])) {
+            $data['populationError'] = 'Het is verplicht het aantal inwoners van het land in te vullen!';
+        }
+
 
         return $data;
     }

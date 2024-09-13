@@ -41,12 +41,14 @@
 
             <div class="mb-3">
                 <label for="inputNameContinent" class="form-label">Continent:</label>
-                <input name="continent" type="text" class="form-control" id="inputNameContinent" placeholder="Vul hier de naam van het continent in" value="<?php if (isset($data['continent'])) { echo $data['continent']; } ?>">
+                <input name="continent" type="text" class="form-control" id="inputNameContinent" placeholder="Vul hier de naam van het continent in" value="<?= $data['continent']; ?>">
+                <div class="errorForm"><?= $data['continentError']; ?></div>
             </div>
 
             <div class="mb-3">
                 <label for="inputPopulation" class="form-label">Aantal inwoners:</label>
-                <input name="population" type="text" class="form-control" id="inputPolulation" placeholder="Vul hier het aantal mensen in woonachtig in het land" value="<?php if (isset($data['population'])) { echo $data['population']; } ?>">
+                <input name="population" type="text" class="form-control" id="inputPolulation" placeholder="Vul hier het aantal mensen in woonachtig in het land" value="<?= $data['population']; ?>">
+                <div class="errorForm"><?= $data['populationError']; ?></div>
             </div>
 
             <div class="d-grid">
