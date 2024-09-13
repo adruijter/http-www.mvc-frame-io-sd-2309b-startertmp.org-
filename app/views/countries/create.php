@@ -14,7 +14,7 @@
     <div class="col-3"></div>
   </div>
   
-  <div class="row mt-3">
+  <div class="row">
     <div class="col-3"></div>
     <div class="col-6">
         <h3><?= $data['title']; ?></h3>

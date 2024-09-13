@@ -77,9 +77,10 @@ class Countries extends BaseController
             $data['capitalCity'] = trim($_POST['capitalCity']);
             $data['continent'] = trim($_POST['continent']);
             $data['population'] = trim($_POST['population']);
-
+         
             $data = $this->validateCreateForm($data);
 
+           
             /**
              * Wanneer alle Error-keys uit $data leeg zijn kunnen we wegschrijven naar de database
              */
@@ -128,6 +129,14 @@ class Countries extends BaseController
         }
         if ( empty($data['population'])) {
             $data['populationError'] = 'Het is verplicht het aantal inwoners van het land in te vullen!';
+        }
+        if ( !filter_var($data['population'], FILTER_VALIDATE_INT)) {
+            $data['populationError'] = 'U kunt alleen positieve gehele getallen invoeren';
+        }
+        if ( 
+            $data['population'] < 0
+            || $data['population'] > 2147483647) {
+            $data['populationError'] = 'U kunt alleen positieve getallen invoeren kleiner dan 2147483647';
         }
 
 
