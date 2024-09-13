@@ -4,7 +4,7 @@
 <!-- Maak een formulier om gegevens in de Country tabel te kunnen opslaan -->
 
 <div class="container">
-  <div class="row mt-3">
+  <div class="row mt-3" style="display:<?= $data['messageVisibility']; ?>">
     <div class="col-3"></div>
     <div class="col-6">
         <div class="alert alert-<?= $data['messageColor']; ?>" role="alert">
@@ -29,13 +29,14 @@
         <form action="<?= URLROOT; ?>/countries/create" method="post">
             <div class="mb-3">
                 <label for="inputNameCountry" class="form-label">Land:</label>
-                <input name="country" type="text" class="form-control" id="inputNameCountry" placeholder="Vul hier de naam van het land in" value="<?php if (isset($data['country'])) { echo $data['country']; } ?>">
-                <div class="errorForm"><?php if (isset($data['countryError'])) { echo $data['countryError']; }; ?></div>
+                <input name="country" type="text" class="form-control" id="inputNameCountry" placeholder="Vul hier de naam van het land in" value="<?= $data['country']; ?>">
+                <div class="errorForm"><?= $data['countryError']; ?></div>
             </div>
 
             <div class="mb-3">
                 <label for="inputNameCapitalCity" class="form-label">Hoofdstad:</label>
-                <input name="capitalCity" type="text" class="form-control" id="inputNameCapitalCity" placeholder="Vul hier de naam van de hoofdstad in" value="<?php if (isset($data['capitalCity'])) { echo $data['capitalCity']; } ?>">
+                <input name="capitalCity" type="text" class="form-control" id="inputNameCapitalCity" placeholder="Vul hier de naam van de hoofdstad in" value="<?= $data['capitalCity']; ?>">
+                <div class="errorForm"><?= $data['capitalCityError']; ?></div>
             </div>
 
             <div class="mb-3">

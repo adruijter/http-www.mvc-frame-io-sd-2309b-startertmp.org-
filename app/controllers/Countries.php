@@ -55,6 +55,7 @@ class Countries extends BaseController
             'title' => 'Voeg een nieuw land toe',
             'message' => '',
             'messageColor' => '',
+            'messageVisibility' => 'none',
             'country' => '',
             'capitalCity' => '',
             'continent' => '',
@@ -82,13 +83,17 @@ class Countries extends BaseController
             /**
              * Wanneer alle Error-keys uit $data leeg zijn kunnen we wegschrijven naar de database
              */
-            if ( empty($data['countryError'])) {
+            if ( 
+                empty($data['countryError']) 
+                && empty($data['capitalCityError'])
+            ) {
                 /**
                  * Roep de createCountry methode aan van het countryModel object waardoor
                  * de gegevens in de database worden opgeslagen
                  */
                 $result = $this->countryModel->createCountry($_POST);
 
+                $data['messageVisibility'] = '';
                 $data['message'] = FORM_SUCCESS;
                 $data['messageColor'] = FORM_SUCCESS_COLOR;
 
@@ -97,6 +102,7 @@ class Countries extends BaseController
                  */
                 header("Refresh:3; url=" . URLROOT . "/countries/index");
             } else {
+                $data['messageVisibility'] = '';
                 $data['message'] = FORM_DANGER;
                 $data['messageColor'] = FORM_DANGER_COLOR;
             }
@@ -111,6 +117,9 @@ class Countries extends BaseController
          */
         if ( empty($data['country'])) {
             $data['countryError'] = 'Het is verplicht de naam van een land in te vullen!';
+        }
+        if ( empty($data['capitalCity'])) {
+            $data['capitalCityError'] = 'Het is verplicht de naam van de hoofdstad in te vullen!';
         }
 
         return $data;
