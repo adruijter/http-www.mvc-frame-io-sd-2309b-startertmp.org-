@@ -1,4 +1,7 @@
 <?php
-$continents = array('Afrika', 'Azië', 'Europa', 'Noor-Amerika', 'Zuid-Amerika', 'Antarctica', 'Oceanië');
+
+// Dit array wordt gebruikt voor continenten
+define('CONTINENTS', array('Afrika', 'Azi&euml;', 'Europa', 'Noord-Amerika', 'Zuid-Amerika', 'Antarctica', 'Oceani&euml;'));
+
 
 ?>

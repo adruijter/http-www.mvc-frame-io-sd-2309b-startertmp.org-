@@ -138,8 +138,11 @@ class Countries extends BaseController
             || $data['population'] > 2147483647) {
             $data['populationError'] = 'U kunt alleen positieve getallen invoeren kleiner dan 2147483647';
         }
-        if ($data['continent']) {
-            $data['populationError'] = 'Dit werelddeel bestaat niet, vervang deze door één uit het selectmenu';
+
+        // var_dump(CONTINENTS);
+        // var_dump($data['continent']);
+        if (!in_array($data['continent'], CONTINENTS)) {
+            $data['continentError'] = 'Dit werelddeel bestaat niet, vervang deze door één uit het selectmenu';
         }
 
 

@@ -38,25 +38,20 @@
                 <input name="capitalCity" type="text" class="form-control" id="inputNameCapitalCity" placeholder="Vul hier de naam van de hoofdstad in" value="<?= $data['capitalCity']; ?>">
                 <div class="errorForm"><?= $data['capitalCityError']; ?></div>
             </div>
-            <!--
-            <div class="mb-3">
-                <label for="inputNameContinent" class="form-label">Continent:</label>
-                <input name="continent" type="text" class="form-control" id="inputNameContinent" placeholder="Vul hier de naam van het continent in" value="<?= $data['continent']; ?>">
-                <div class="errorForm"><?= $data['continentError']; ?></div>
-            </div>
-            -->
+           
             <div class="mb-3">
                 <label for="inputNameContinent" class="form-label">Continent:</label>
                 <select name="continent" class="form-select" id="inputNameContinent" aria-label="Default select example">
                     <option selected>Vul hier de naam van het continent in</option>
-                    <option value="Africa">Afrika</option>
-                    <option value="Azië">Azië</option>
-                    <option value="Europa">Europa</option>
-                    <option value="Noord-Amerika">Noord-Amerika</option>
-                    <option value="Zuid-Amerika">Zuid-Amerika</option>
-                    <option value="Antarctica">Antarctica</option>
-                    <option value="Oceanië">Oceanië</option>
+                    <option <?= ($data['continent'] == 'Afrika') ? 'selected' : ''; ?> value="Afrika">Afrika</option>
+                    <option <?= ($data['continent'] == 'Azi&euml;') ? 'selected' : ''; ?> value="Azi&euml;">Azië</option>
+                    <option <?= ($data['continent'] == 'Europa') ? 'selected' : ''; ?> value="Europa">Europa</option>
+                    <option <?= ($data['continent'] == 'Noord-Amerika') ? 'selected' : ''; ?> value="Noord-Amerika">Noord-Amerika</option>
+                    <option <?= ($data['continent'] == 'Zuid-Amerika') ? 'selected' : ''; ?> value="Zuid-Amerika">Zuid-Amerika</option>
+                    <option <?= ($data['continent'] == 'Antarctica') ? 'selected' : ''; ?> value="Antarctica">Antarctica</option>
+                    <option <?= ($data['continent'] == 'Oceani&euml;') ? 'selected' : ''; ?> value="Oceani&euml;">Oceanië</option>
                 </select>
+                <div class="errorForm"><?= $data['continentError']; ?></div>
             </div>
 
             <div class="mb-3">
