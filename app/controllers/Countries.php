@@ -22,12 +22,12 @@ class Countries extends BaseController
                             <td>{$country->Continent}</td>
                             <td>" . number_format($country->Population, 0, ",", ".") . "</td>
                             <td>{$country->Zipcode}</td>
-                            <td>
+                            <td class='text-center'>
                                 <a href='" . URLROOT . "/countries/update/{$country->Id}'>
                                     <i class='bi bi-pencil-square'></i>
                                 </a>
                             </td>
-                            <td>
+                            <td class='text-center'>
                                 <a href='" . URLROOT . "/countries/delete/{$country->Id}'>
                                     <i class='bi bi-trash'></i>
                                 </a>
@@ -93,6 +93,7 @@ class Countries extends BaseController
                 && empty($data['capitalCityError'])
                 && empty($data['continentError'])
                 && empty($data['populationError'])
+                && empty($data['zipcodeError'])
             ) {
                 /**
                  * Roep de createCountry methode aan van het countryModel object waardoor
@@ -150,36 +151,94 @@ class Countries extends BaseController
         }
 
 
+        echo preg_match('/^\d{4}[A-Z]{2}$/', $data['zipcode']);
+        if (!preg_match('/^\d{4}[A-Z]{2}$/', $data['zipcode'])) {
+            $data['zipcodeError'] = 'De ingevoerde postcode heeft geen geldig formaat, probeer het opnieuw';
+        }
+
+
 
         return $data;
     }
 
     public function update($countryId)
     {
+        $result = $this->countryModel->getCountry($countryId);
+
+        $data = [
+            'title' => 'Wijzig Land',
+            'message' => '',
+            'messageColor' => '',
+            'messageVisibility' => 'none',
+            'Id' => $result->Id,
+            'country' => $result->Name,
+            'capitalCity' => $result->CapitalCity,
+            'continent' => $result->Continent,
+            'population' => $result->Population,
+            'zipcode' => $result->Zipcode,
+            'countryError' => '',
+            'capitalCityError' => '',
+            'continentError' => '',
+            'populationError' => '',
+            'zipcodeError' => ''
+        ];
+
         if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
             $this->countryModel->updateCountry($_POST);
 
-            echo '<div class="alert alert-success" role="alert">
-                    Het land is gewijzigd. U wordt doorgestuurd naar de index-pagina.
-                </div>';
-                
-            header("Refresh:3; url=" . URLROOT . "/countries/index");
+             // var_dump($_POST);
+             $data['country'] = trim($_POST['country']);
+             $data['capitalCity'] = trim($_POST['capitalCity']);
+             $data['continent'] = trim($_POST['continent']);
+             $data['population'] = trim($_POST['population']);
+             $data['zipcode'] = trim($_POST['zipcode']);
+          
+             $data = $this->validateCreateForm($data);
+
+             /**
+             * Wanneer alle Error-keys uit $data leeg zijn kunnen we wegschrijven naar de database
+             */
+            if ( 
+                empty($data['countryError']) 
+                && empty($data['capitalCityError'])
+                && empty($data['continentError'])
+                && empty($data['populationError'])
+                && empty($data['zipcodeError'])
+            ) {
+                /**
+                 * Roep de createCountry methode aan van het countryModel object waardoor
+                 * de gegevens in de database worden opgeslagen
+                 */
+                $result = $this->countryModel->updateCountry($_POST);
+
+                $data['messageVisibility'] = '';
+                $data['message'] = TEST;
+                $data['messageColor'] = FORM_SUCCESS_COLOR;
+
+                /**
+                 * Na het opslaan van de formulier wordt de gebruiker teruggeleid naar de index-pagina
+                 */
+                header("Refresh:3; url=" . URLROOT . "/countries/index");
+            } else {
+                $data['messageVisibility'] = '';
+                $data['message'] = FORM_DANGER;
+                $data['messageColor'] = FORM_DANGER_COLOR;
+            }           
         }
 
-        $result = $this->countryModel->getCountry($countryId);
         
-        $data = [
-            'title' => 'Wijzig land',
-            'Id' => $result->Id,
-            'country' => $result->Name,
-            'capitalCity' => $result->CapitalCity,
-            'continent' => $result->Continent,
-            'population' => $result->Population,
-            'zipcode' => $result->Zipcode
-        ];
+        // $data = [
+        //     'title' => 'Wijzig land',
+        //     'Id' => $result->Id,
+        //     'country' => $result->Name,
+        //     'capitalCity' => $result->CapitalCity,
+        //     'continent' => $result->Continent,
+        //     'population' => $result->Population,
+        //     'zipcode' => $result->Zipcode
+        // ];
 
         $this->view('countries/update', $data);
     }

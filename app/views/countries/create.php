@@ -4,7 +4,7 @@
 <!-- Maak een formulier om gegevens in de Country tabel te kunnen opslaan -->
 
 <div class="container">
-  <div class="row mt-3" style="display:<?= $data['messageVisibility']; ?>">
+  <div class="row" style="display:<?= $data['messageVisibility']; ?>">
     <div class="col-3"></div>
     <div class="col-6">
         <div class="alert alert-<?= $data['messageColor']; ?>" role="alert">

@@ -1,7 +1,16 @@
 <?php require_once APPROOT . '/views/includes/header.php'; ?>
 
     <div class="container">
-  
+        <div class="row" style="display:<?= $data['messageVisibility']; ?>">
+            <div class="col-3"></div>
+            <div class="col-6">
+                <div class="alert alert-<?= $data['messageColor']; ?>" role="alert">
+                    <?= $data['message']; ?>
+                </div>
+            </div>
+            <div class="col-3"></div>
+        </div>
+
         <div class="row mt-3">
             <div class="col-3"></div>
             <div class="col-6">
@@ -18,26 +27,31 @@
                     <div class="mb-3">
                         <label for="inputNameCountry" class="form-label">Land:</label>
                         <input value="<?= $data['country']; ?>" name="country" type="text" class="form-control" id="inputNameCountry" placeholder="Vul hier de naam van het land in">
+                        <div class="errorForm"><?= $data['countryError']; ?></div>
                     </div>
 
                     <div class="mb-3">
                         <label for="inputNameCapitalCity" class="form-label">Hoofdstad:</label>
                         <input value="<?= $data['capitalCity']; ?>" name="capitalCity" type="text" class="form-control" id="inputNameCapitalCity" placeholder="Vul hier de naam van de hoofdstad in">
+                        <div class="errorForm"><?= $data['capitalCityError']; ?></div>
                     </div>
 
                     <div class="mb-3">
                         <label for="inputNameContinent" class="form-label">Continent:</label>
                         <input value="<?= $data['continent']; ?>" name="continent" type="text" class="form-control" id="inputNameContinent" placeholder="Vul hier de naam van het continent in">
+                        <div class="errorForm"><?= $data['continentError']; ?></div>
                     </div>
 
                     <div class="mb-3">
                         <label for="inputPopulation" class="form-label">Aantal inwoners:</label>
                         <input value="<?= $data['population']; ?>" name="population" type="text" class="form-control" id="inputPolulation" placeholder="Vul hier het aantal mensen in woonachtig in het land">
+                        <div class="errorForm"><?= $data['populationError']; ?></div>
                     </div>
 
                     <div class="mb-3">
                         <label for="inputNameZipcode" class="form-label">Postcode:</label>
                         <input value="<?= $data['zipcode']; ?>" name="zipcode" type="text" class="form-control" id="inputNameZipcode" placeholder="Vul hier je eigen postcode in!">
+                        <div class="errorForm"><?= $data['zipcodeError']; ?></div>
                     </div>
 
                     <input type="hidden" name="Id" value="<?= $data['Id']; ?>">
