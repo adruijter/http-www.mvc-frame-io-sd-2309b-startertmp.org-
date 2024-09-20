@@ -60,6 +60,12 @@
                 <div class="errorForm"><?= $data['populationError']; ?></div>
             </div>
 
+            <div class="mb-3">
+                <label for="inputNameZipcode" class="form-label">Postcode:</label>
+                <input name="zipcode" type="text" class="form-control" id="inputNameZipcode" placeholder="Vul hier je eigen postcode in!" value="<?= $data['zipcode']; ?>">
+                <div class="errorForm"><?= $data['zipcodeError']; ?></div>
+            </div>
+
             <div class="d-grid">
                 <button type="submit" class="btn btn-success">Sla op</button>
             </div>

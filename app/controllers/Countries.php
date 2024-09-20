@@ -21,6 +21,7 @@ class Countries extends BaseController
                             <td>{$country->CapitalCity}</td>
                             <td>{$country->Continent}</td>
                             <td>" . number_format($country->Population, 0, ",", ".") . "</td>
+                            <td>{$country->Zipcode}</td>
                             <td>
                                 <a href='" . URLROOT . "/countries/update/{$country->Id}'>
                                     <i class='bi bi-pencil-square'></i>
@@ -60,10 +61,12 @@ class Countries extends BaseController
             'capitalCity' => '',
             'continent' => '',
             'population' => '',
+            'zipcode' => '',
             'countryError' => '',
             'capitalCityError' => '',
             'continentError' => '',
-            'populationError' => ''
+            'populationError' => '',
+            'zipcodeError' => ''
         ];
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -77,6 +80,7 @@ class Countries extends BaseController
             $data['capitalCity'] = trim($_POST['capitalCity']);
             $data['continent'] = trim($_POST['continent']);
             $data['population'] = trim($_POST['population']);
+            $data['zipcode'] = trim($_POST['zipcode']);
          
             $data = $this->validateCreateForm($data);
 
@@ -135,8 +139,8 @@ class Countries extends BaseController
         }
         if ( 
             $data['population'] < 0
-            || $data['population'] > 2147483647) {
-            $data['populationError'] = 'U kunt alleen positieve getallen invoeren kleiner dan 2147483647';
+            || $data['population'] > 4294967295) {
+            $data['populationError'] = 'U kunt alleen positieve getallen invoeren kleiner dan 4294967295';
         }
 
         // var_dump(CONTINENTS);
@@ -166,14 +170,15 @@ class Countries extends BaseController
         }
 
         $result = $this->countryModel->getCountry($countryId);
-
+        
         $data = [
             'title' => 'Wijzig land',
             'Id' => $result->Id,
             'country' => $result->Name,
             'capitalCity' => $result->CapitalCity,
             'continent' => $result->Continent,
-            'population' => $result->Population
+            'population' => $result->Population,
+            'zipcode' => $result->Zipcode
         ];
 
         $this->view('countries/update', $data);
