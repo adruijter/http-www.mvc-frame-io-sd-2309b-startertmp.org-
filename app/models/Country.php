@@ -22,15 +22,7 @@ class Country
             /**
              * Maak een sql-query die de gewenste informatie opvraagt uit de database
              */
-            // $sql = 'SELECT Id
-            //               ,Name
-            //               ,CapitalCity
-            //               ,Continent
-            //               ,Population
-            //               ,Zipcode
-            //         FROM   Country';
-
-            $sql = 'CALL spGetCountries()'; 
+            $sql = 'CALL spGetCountries()';
 
             /**
              * Prepare de query voor het PDO object
@@ -86,14 +78,16 @@ class Country
 
     public function getCountry($countryId)
     {
-        $sql = "SELECT Id
-                     ,Name
-                     ,CapitalCity
-                     ,Continent
-                     ,Population
-                     ,Zipcode
-                FROM Country
-                WHERE Id = :id";
+        // $sql = "SELECT Id
+        //              ,Name
+        //              ,CapitalCity
+        //              ,Continent
+        //              ,Population
+        //              ,Zipcode
+        //         FROM Country
+        //         WHERE Id = :id";
+
+        $sql = 'CALL spGetCountryById(:id)';
 
         $this->db->query($sql);
 

@@ -54,7 +54,9 @@ class Database
     public function resultSet()
     {
         $this->statement->execute();
-        return $this->statement->fetchAll(PDO::FETCH_OBJ);
+        $result = $this->statement->fetchAll(PDO::FETCH_OBJ);
+        $this->statement->closecursor();
+        return $result;
     }
 
     /**
@@ -76,6 +78,10 @@ class Database
     public function single()
     {
         $this->statement->execute();
-        return $this->statement->fetch(PDO::FETCH_OBJ);
+        $result = $this->statement->fetch(PDO::FETCH_OBJ);
+        $this->statement->closecursor();
+        return $result;
     }
+
+
 }
