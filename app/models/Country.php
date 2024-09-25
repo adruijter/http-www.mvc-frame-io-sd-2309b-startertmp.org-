@@ -22,13 +22,15 @@ class Country
             /**
              * Maak een sql-query die de gewenste informatie opvraagt uit de database
              */
-            $sql = 'SELECT Id
-                          ,Name
-                          ,CapitalCity
-                          ,Continent
-                          ,Population
-                          ,Zipcode
-                    FROM   Country';
+            // $sql = 'SELECT Id
+            //               ,Name
+            //               ,CapitalCity
+            //               ,Continent
+            //               ,Population
+            //               ,Zipcode
+            //         FROM   Country';
+
+            $sql = 'CALL spGetCountries()'; 
 
             /**
              * Prepare de query voor het PDO object
