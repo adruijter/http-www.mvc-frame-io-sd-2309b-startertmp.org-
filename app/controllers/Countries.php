@@ -187,8 +187,6 @@ class Countries extends BaseController
 
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            $this->countryModel->updateCountry($_POST);
-
              // var_dump($_POST);
              $data['country'] = trim($_POST['country']);
              $data['capitalCity'] = trim($_POST['capitalCity']);

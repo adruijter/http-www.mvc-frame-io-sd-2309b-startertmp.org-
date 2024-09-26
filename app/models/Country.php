@@ -78,44 +78,53 @@ class Country
 
     public function getCountry($countryId)
     {
-        // $sql = "SELECT Id
-        //              ,Name
-        //              ,CapitalCity
-        //              ,Continent
-        //              ,Population
-        //              ,Zipcode
-        //         FROM Country
-        //         WHERE Id = :id";
+        try {
 
-        $sql = 'CALL spGetCountryById(:id)';
+            $sql = 'CALL spGetCountryById(:id)';
+    
+            $this->db->query($sql);
+    
+            $this->db->bind(':id', $countryId, PDO::PARAM_INT);
+    
+            return $this->db->single();
 
-        $this->db->query($sql);
+        } catch (Exception $e) {
 
-        $this->db->bind(':id', $countryId, PDO::PARAM_INT);
-
-        return $this->db->single();
+            // Behandel de uitzondering hier, bijvoorbeeld loggen of een foutmelding weergeven
+            echo 'Er is een fout opgetreden: ' . $e->getMessage();
+        }
+   
     }
 
     public function updateCountry($postArrayData)
     {
-        $sql = "UPDATE Country
-                   SET Name = :name
-                      ,CapitalCity = :capitalcity
-                      ,Continent = :continent
-                      ,Population = :population
-                      ,Zipcode = :zipcode
-                 WHERE Id = :id";
+        // Volgens PSR-12 mag de regellengte niet langer zijn dan 120
 
-        $this->db->query($sql);
+        try {
 
-        $this->db->bind(':name', $postArrayData['country'], PDO::PARAM_STR);
-        $this->db->bind(':capitalcity', $postArrayData['capitalCity'], PDO::PARAM_STR);
-        $this->db->bind(':continent', $postArrayData['continent'], PDO::PARAM_STR);
-        $this->db->bind(':population', $postArrayData['population'], PDO::PARAM_INT);
-        $this->db->bind(':zipcode', $postArrayData['zipcode'], PDO::PARAM_STR);
-        $this->db->bind(':id', $postArrayData['Id'], PDO::PARAM_INT);
-
-        return $this->db->execute();        
+            $sql = 'CALL spUpdateCountryById(
+                :id, 
+                :name, 
+                :capitalcity, 
+                :continent, 
+                :population, 
+                :zipcode)';
+    
+            $this->db->query($sql);
+    
+            $this->db->bind(':name', $postArrayData['country'], PDO::PARAM_STR);
+            $this->db->bind(':capitalcity', $postArrayData['capitalCity'], PDO::PARAM_STR);
+            $this->db->bind(':continent', $postArrayData['continent'], PDO::PARAM_STR);
+            $this->db->bind(':population', $postArrayData['population'], PDO::PARAM_INT);
+            $this->db->bind(':zipcode', $postArrayData['zipcode'], PDO::PARAM_STR);
+            $this->db->bind(':id', $postArrayData['Id'], PDO::PARAM_INT);
+    
+            return $this->db->execute();
+                    
+        } catch (Exception $e) {
+            // Behandel de uitzondering hier, bijvoorbeeld loggen of een foutmelding weergeven
+            echo 'Er is een fout opgetreden: ' . $e->getMessage();
+        }
     }
 
     public function deleteCountry($countryId)
