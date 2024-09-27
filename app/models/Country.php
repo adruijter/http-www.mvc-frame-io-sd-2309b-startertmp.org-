@@ -90,13 +90,14 @@ class Country
 
     public function updateCountry($postArrayData)
     {
-        $sql = "UPDATE Country
-                   SET Name = :name
-                      ,CapitalCity = :capitalcity
-                      ,Continent = :continent
-                      ,Population = :population
-                      ,Zipcode = :zipcode
-                 WHERE Id = :id";
+        $sql = 'CALL spUpdateCountryById(
+                    :id, 
+                    :name,
+                    :capitalcity,
+                    :continent,
+                    :population,
+                    :zipcode
+                )';
 
         $this->db->query($sql);
 
@@ -115,9 +116,8 @@ class Country
         /**
          * Maak een sql-query die een record uit de database verwijdert
          */
-        $sql = "DELETE 
-                FROM Country
-                WHERE Id = :id";
+
+        $sql = 'CALL spDeleteCountryById(:id)';
 
         /**
          * Prepare de query voor het PDO object
