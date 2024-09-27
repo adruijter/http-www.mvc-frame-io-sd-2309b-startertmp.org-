@@ -12,28 +12,29 @@
 use `mvc-framework-io-sd-2309b-startertmp`;
 
 -- Verwijder de bestaande stored procedure
-DROP PROCEDURE IF EXISTS spGetCountryById;
+DROP PROCEDURE IF EXISTS spReadCountryById;
 
 DELIMITER //
 
-CREATE PROCEDURE spGetCountryById
+CREATE PROCEDURE spReadCountryById 
 (
-    IN countryId INT UNSIGNED
+    IN Id INT UNSIGNED
 )
 BEGIN
-    SELECT  Id
-            ,Name
-            ,CapitalCity
-            ,Continent
-            ,Population
-            ,Zipcode
-    FROM Country
-    WHERE Id = countryId;
+
+    SELECT  COUN.Id
+            ,COUN.Name
+            ,COUN.CapitalCity
+            ,COUN.Continent
+            ,COUN.Population
+            ,COUN.Zipcode
+    FROM Country AS COUN
+    WHERE COUN.Id = Id;
 
 END //
 DELIMITER ;
 
 /**********debug code stored procedure***************
-CALL spGetCountries(2);
+CALL spReadCountryById(2);
 ****************************************************/
 
