@@ -78,15 +78,7 @@ class Country
 
     public function getCountry($countryId)
     {
-        // $sql = "SELECT Id
-        //              ,Name
-        //              ,CapitalCity
-        //              ,Continent
-        //              ,Population
-        //              ,Zipcode
-        //         FROM Country
-        //         WHERE Id = :id";
-
+        
         $sql = 'CALL spGetCountryById(:id)';
 
         $this->db->query($sql);

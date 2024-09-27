@@ -18,6 +18,7 @@ DELIMITER //
 
 CREATE PROCEDURE spGetCountries()
 BEGIN
+
     SELECT Id
            ,Name
            ,CapitalCity
