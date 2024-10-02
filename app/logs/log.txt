@@ -1,0 +1,2 @@
+[2024-10-02 06:26:57] Error in C:\projects2024\MVC-Framework-2309B\app\controllers\Countries.php at line 18, method: index - foreach() argument must be of type array|object, null given
+[2024-10-02 06:27:37] Error in C:\projects2024\MVC-Framework-2309B\app\controllers\Countries.php at line 18, method: index - foreach() argument must be of type array|object, null given
