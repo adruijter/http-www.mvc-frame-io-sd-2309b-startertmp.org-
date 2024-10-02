@@ -22,7 +22,7 @@ class Country
             /**
              * Maak een sql-query die de gewenste informatie opvraagt uit de database
              */
-            $sql = 'CALL spReadCountries()';
+            $sql = 'CALL speadCountries()';
 
             /**
              * Prepare de query voor het PDO object
@@ -36,6 +36,7 @@ class Country
         } catch (Exception $e) {
             // Behandel de uitzondering hier, bijvoorbeeld loggen of een foutmelding weergeven
             echo 'Er is een fout opgetreden: ' . $e->getMessage();
+            set_error_handler('errorHandler');
         }
     }
 
