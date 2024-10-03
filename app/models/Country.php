@@ -22,7 +22,7 @@ class Country
             /**
              * Maak een sql-query die de gewenste informatie opvraagt uit de database
              */
-            $sql = 'CALL speadCountries()';
+            $sql = 'CALL spReadCountries()';
 
             /**
              * Prepare de query voor het PDO object
