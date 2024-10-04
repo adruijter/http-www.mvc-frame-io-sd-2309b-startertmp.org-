@@ -26,9 +26,7 @@ class Countries extends BaseController
             $data['messageColor'] = "danger";
             $data['messageVisibility'] = "flex";
 
-            $dataRows = "<tr>
-                            <td colspan='7' class='text-center'>Er zijn landen om weer te geven</td>
-                         </tr>";
+            $dataRows = NULL;
             $data['dataRows'] = $dataRows;
 
             header('Refresh:2; ' . URLROOT . '/homepages/index');
