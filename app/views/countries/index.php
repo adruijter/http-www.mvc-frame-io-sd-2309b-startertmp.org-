@@ -4,6 +4,17 @@
 
 <!-- Maak een nieuwe view aan voor deze link -->
 <div class="container">
+    <div class="row mt-3 text-center" style="display:<?= $data['messageVisibility']; ?>">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <div class="alert alert-<?= $data['messageColor']; ?>" role="alert">
+                <?= $data['message']; ?>
+            </div>
+        </div>
+        <div class="col-2"></div>
+    </div>
+
+
     <div class="row mt-3">
         <div class="col-2"></div>
         <div class="col-8">
@@ -30,7 +41,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?= $data['dataRows']; ?>
+                    <?php foreach ($data['dataRows'] as $country) { ?>
+                        <tr>
+                          <td><?= $country->Name ?></td>
+                          <td>{$country->CapitalCity}</td>
+                                <td>{$country->Continent}</td>
+                                <td>" . number_format($country->Population, 0, ",", ".") . "</td>
+                                <td>{$country->Zipcode}</td>
+                                <td class='text-center'>
+                                    <a href='" . URLROOT . "/countries/update/{$country->Id}'>
+                                        <i class='bi bi-pencil-square'></i>
+                                    </a>
+                                </td>
+                                <td class='text-center'>
+                                    <a href='" . URLROOT . "/countries/delete/{$country->Id}'>
+                                        <i class='bi bi-trash'></i>
+                                    </a>
+                                </td>            
+                            </tr>";
+                    <?php } ?>
                 </tbody>
             </table>
             <a href="<?= URLROOT; ?>/homepages/index">Homepage</a>

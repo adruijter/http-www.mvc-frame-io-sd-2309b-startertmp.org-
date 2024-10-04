@@ -11,43 +11,30 @@ class Countries extends BaseController
 
     public function index()
     {
+        $data = [
+            'title' => 'Landen van de Wereld',
+            'dataRows' => '',
+            'message' => '',
+            'messageColor' => '',
+            'messageVisibility' => 'none'
+        ];
+
         $countries = $this->countryModel->getCountries();
 
         if (is_null($countries)) {
-            //Foutmelding
+            $data['message'] = "Er is een fout opgetreden";
+            $data['messageColor'] = "danger";
+            $data['messageVisibility'] = "flex";
+
             $dataRows = "<tr>
                             <td colspan='7' class='text-center'>Er zijn landen om weer te geven</td>
                          </tr>";
+            $data['dataRows'] = $dataRows;
+
+            header('Refresh:2; ' . URLROOT . '/homepages/index');
         } else {
-            $dataRows = "";
-
-            foreach ($countries as $country) {
-                $dataRows .= "<tr>
-                                <td>{$country->Name}</td>
-                                <td>{$country->CapitalCity}</td>
-                                <td>{$country->Continent}</td>
-                                <td>" . number_format($country->Population, 0, ",", ".") . "</td>
-                                <td>{$country->Zipcode}</td>
-                                <td class='text-center'>
-                                    <a href='" . URLROOT . "/countries/update/{$country->Id}'>
-                                        <i class='bi bi-pencil-square'></i>
-                                    </a>
-                                </td>
-                                <td class='text-center'>
-                                    <a href='" . URLROOT . "/countries/delete/{$country->Id}'>
-                                        <i class='bi bi-trash'></i>
-                                    </a>
-                                </td>            
-                            </tr>";
-            }
-
+            $data['dataRows'] = $countries;
         }
-
-        
-        $data = [
-            'title' => 'Landen van de Wereld',
-            'dataRows' => $dataRows
-        ];
 
         $this->view('countries/index', $data);
     }
