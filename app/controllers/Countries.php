@@ -13,28 +13,37 @@ class Countries extends BaseController
     {
         $countries = $this->countryModel->getCountries();
 
-        $dataRows = "";
+        if (is_null($countries)) {
+            //Foutmelding
+            $dataRows = "<tr>
+                            <td colspan='7' class='text-center'>Er zijn landen om weer te geven</td>
+                         </tr>";
+        } else {
+            $dataRows = "";
 
-        foreach ($countries as $country) {
-            $dataRows .= "<tr>
-                            <td>{$country->Name}</td>
-                            <td>{$country->CapitalCity}</td>
-                            <td>{$country->Continent}</td>
-                            <td>" . number_format($country->Population, 0, ",", ".") . "</td>
-                            <td>{$country->Zipcode}</td>
-                            <td class='text-center'>
-                                <a href='" . URLROOT . "/countries/update/{$country->Id}'>
-                                    <i class='bi bi-pencil-square'></i>
-                                </a>
-                            </td>
-                            <td class='text-center'>
-                                <a href='" . URLROOT . "/countries/delete/{$country->Id}'>
-                                    <i class='bi bi-trash'></i>
-                                </a>
-                            </td>            
-                        </tr>";
+            foreach ($countries as $country) {
+                $dataRows .= "<tr>
+                                <td>{$country->Name}</td>
+                                <td>{$country->CapitalCity}</td>
+                                <td>{$country->Continent}</td>
+                                <td>" . number_format($country->Population, 0, ",", ".") . "</td>
+                                <td>{$country->Zipcode}</td>
+                                <td class='text-center'>
+                                    <a href='" . URLROOT . "/countries/update/{$country->Id}'>
+                                        <i class='bi bi-pencil-square'></i>
+                                    </a>
+                                </td>
+                                <td class='text-center'>
+                                    <a href='" . URLROOT . "/countries/delete/{$country->Id}'>
+                                        <i class='bi bi-trash'></i>
+                                    </a>
+                                </td>            
+                            </tr>";
+            }
+
         }
 
+        
         $data = [
             'title' => 'Landen van de Wereld',
             'dataRows' => $dataRows
