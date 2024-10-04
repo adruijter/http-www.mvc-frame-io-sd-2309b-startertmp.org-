@@ -35,8 +35,11 @@ class Country
             return $this->db->resultSet();
         } catch (Exception $e) {
             // Behandel de uitzondering hier, bijvoorbeeld loggen of een foutmelding weergeven
-            echo 'Er is een fout opgetreden: ' . $e->getMessage();
-            set_error_handler("errorHandler($e->getMessage())");
+            //echo 'Er is een fout opgetreden: ' . $e->getMessage();
+            throw new CustomException("Dit is een test", $e);
+        } catch (CustomException $ce) {
+            var_dump($ce);
+            $ce->getMessage();
         }
     }
 
