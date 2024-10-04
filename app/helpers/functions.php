@@ -1,21 +1,72 @@
 <?php
 
-function logError($errorMessage, $file, $line, $method)
+/**
+ * Functie voor het loggen van fouten die ontstaan in een try-catch blok
+ * De volgende zaken worden gelogd
+ * *******************************
+ * - Errormessage van de fout
+ * - Datum en tijd wanneer de fout is opgetreden
+ * - Naam van het bestand waar de fout is opgetreden
+ * - Regelnummer waar de fout is ontstaan
+ * - Method waarin de fout is opgetreden
+ * - ip-adres van de veroorzaker van de fout
+ */
+
+
+function logger($line, $method, $file, $error)
 {
-    $logFile = APPROOT. '/logs/log.txt';
+    /**
+     * De error uit de code
+     */
+    $error = "De error is: " . $error . "\t";
 
-    $dateTime = date("Y-m-d H:i:s");
+    /**
+     * De tijd en datum waarop de error heeft plaatsgevonden
+     */
+    date_default_timezone_set('Europe/Amsterdam');
+    $dateTime = 'Datum/tijd: ' . date('d-m-Y H:i:s', time()) . "\t";
 
-    $logMessage = "[$dateTime] Error in $file at line $line, method: $method - $errorMessage" . PHP_EOL;;
+    /**
+     * Het IP-adres van degene die de fout heeft veroorzaakt
+     */
+    $remote_ip = 'Remote IP-adres: ' . $_SERVER['REMOTE_ADDR'] . "\t";
 
-    file_put_contents($logFile, $logMessage, FILE_APPEND);
-}
+    /**
+     * Bestandsnaam van het bestand waar de error is opgetreden
+     */
+    $filename = "Bestandsnaam: " . $file . "\t";
+    
+    /**
+     * Methodnaam waar de fout is opgetreden
+     */
+    $methodname = 'Methodnaam: ' . $method . "\t";
 
-function errorHandler($errno, $errstr, $errfile, $errline) 
-{
-    // De method waar de fout plaatsvond
-    $method = debug_backtrace()[1]['function'] ?? 'global scope';
+    /**
+     * Regelnummer van de fout
+     */
+    $lineNumber = 'Regelnummer: ' . $line . "\t";
 
-    // Fout loggen
-    logError($errstr, $errfile, $errline, $method);
+    /**
+     * Regel met alle bovenstaande informatie
+     */
+    $content = $dateTime . $remote_ip . $error . $filename . $methodname . $lineNumber . "\r";
+
+    /**
+     * Pad naar het logbestand
+     */
+    $pathToLogFile = APPROOT . '/logs/log.txt';
+
+    /**
+     * Als het logbestand nog niet bestaat dan wordt het bestand gemaakt en wordt er 
+     * een kopje boven aan het bestand geplaatst
+     */
+    if (!file_exists($pathToLogFile)) {
+        file_put_contents($pathToLogFile, "Non functional Log\r++++++++++++++++++\r");
+    }
+
+    /**
+     * Voeg de errorinformatie toe aan een logbestand
+     */
+    file_put_contents($pathToLogFile, $content, FILE_APPEND);
+
 }
