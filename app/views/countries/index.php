@@ -42,25 +42,25 @@
                 </thead>
                 <tbody>
     
-                    <?php          
-                    foreach ($data['dataRows'] as $country) { ?>
-                        <tr>
-                          <td><?= $country->Name ?></td>
-                          <td><?= $country->CapitalCity ?></td>
-                          <td><?= $country->Continent ?></td>
-                          <td><?php number_format($country->Population, 0, ",", ".") ?></td>
-                          <td><?= $country->Zipcode ?></td>
-                          <td class='text-center'>
-                              <a href='<?= URLROOT . "/countries/update/$country->Id" ?>'>
-                                  <i class='bi bi-pencil-square'></i>
-                              </a>
-                          </td>
-                          <td class='text-center'>
-                              <a href='<?= URLROOT . "/countries/delete/$country->Id" ?>'>
-                                  <i class='bi bi-trash'></i>
-                              </a>
-                          </td>            
-                        </tr>
+                              
+                    <?php foreach ($data['dataRows'] as $country) { ?>
+                            <tr>
+                            <td><?= $country->Name ?></td>
+                            <td><?= $country->CapitalCity ?></td>
+                            <td><?= $country->Continent ?></td>
+                            <td><?php number_format($country->Population, 0, ",", ".") ?></td>
+                            <td><?= $country->Zipcode ?></td>
+                            <td class='text-center'>
+                                <a href='<?= URLROOT . "/countries/update/$country->Id" ?>'>
+                                    <i class='bi bi-pencil-square'></i>
+                                </a>
+                            </td>
+                            <td class='text-center'>
+                                <a href='<?= URLROOT . "/countries/delete/$country->Id" ?>'>
+                                    <i class='bi bi-trash'></i>
+                                </a>
+                            </td>            
+                            </tr>
                     <?php } ?>
                 </tbody>
             </table>
