@@ -89,7 +89,7 @@ class Country
             /**
              * Stored procedure voor opvragen van record
              */
-            $sql = 'CALL speadCountryById(:id)';
+            $sql = 'CALL spReadCountryById(:id)';
     
             $this->db->query($sql);
     
@@ -161,8 +161,10 @@ class Country
             return $this->db->execute(); 
 
         } catch (Exception $e) {
-            // Behandel de uitzondering hier, bijvoorbeeld loggen of een foutmelding weergeven
-            echo 'Er is een fout opgetreden: ' . $e->getMessage();
+            /**
+             * Log de error in de functie logger()
+             */
+            logger(__LINE__, __METHOD__, __FILE__, $e->getMessage());  
         }
     }
 

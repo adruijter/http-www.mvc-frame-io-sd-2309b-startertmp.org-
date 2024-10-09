@@ -166,6 +166,10 @@ class Countries extends BaseController
     public function update($countryId)
     {
 
+        /**
+         * De coalesce operator checked of de opgehaalde resultaten uit de database null zijn. Als dat zo is 
+         * wordt de header refresh ingeschakeld. Anders worden de resultaten in $result gezet
+         */
         $result = $this->countryModel->getCountry($countryId) ?? header('Refresh:3; ' . URLROOT . '/countries/index');
         
         
@@ -239,13 +243,18 @@ class Countries extends BaseController
 
     public function delete($countryId)
     {
+       /**
+        * Als het resultaat null is sturen we door naar index
+        */
        $result = $this->countryModel->deleteCountry($countryId);
 
        $data = [
-           'message' => 'Het record is verwijderd. U wordt doorgestuurd naar de index-pagina.'
+        'message' => is_null($result) ? 'Er is een fout opgetreden, het record is niet verwijderd' : 'Het record is verwijderd. U wordt doorgestuurd naar de index-pagina.',
+        'messageColor' => is_null($result) ? 'danger' : 'success',
+        'messageVisibility' => is_null($result) ? 'flex': 'flex'
        ];
 
-       header("Refresh:1; " . URLROOT . "/countries/index");
+       header("Refresh:3; " . URLROOT . "/countries/index");
 
        $this->view('countries/delete', $data);
     }
