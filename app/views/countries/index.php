@@ -41,27 +41,30 @@
                     </tr>
                 </thead>
                 <tbody>
-    
-                              
-                    <?php foreach ($data['dataRows'] as $country) { ?>
-                            <tr>
-                            <td><?= $country->Name ?></td>
-                            <td><?= $country->CapitalCity ?></td>
-                            <td><?= $country->Continent ?></td>
-                            <td><?php number_format($country->Population, 0, ",", ".") ?></td>
-                            <td><?= $country->Zipcode ?></td>
-                            <td class='text-center'>
-                                <a href='<?= URLROOT . "/countries/update/$country->Id" ?>'>
-                                    <i class='bi bi-pencil-square'></i>
-                                </a>
-                            </td>
-                            <td class='text-center'>
-                                <a href='<?= URLROOT . "/countries/delete/$country->Id" ?>'>
-                                    <i class='bi bi-trash'></i>
-                                </a>
-                            </td>            
-                            </tr>
-                    <?php } ?>
+                    <?php if (is_null($data['dataRows'])) { ?>
+                              <tr>
+                                <td colspan='7' class='text-center'>Er zijn geen landen bekent in de database</td>
+                              </tr>
+                    <?php } else {                              
+                              foreach ($data['dataRows'] as $country) { ?>
+                                <tr>
+                                <td><?= $country->Name ?></td>
+                                <td><?= $country->CapitalCity ?></td>
+                                <td><?= $country->Continent ?></td>
+                                <td><?= number_format($country->Population, 0, ",", ".") ?></td>
+                                <td><?= $country->Zipcode ?></td>
+                                <td class='text-center'>
+                                    <a href='<?= URLROOT . "/countries/update/$country->Id" ?>'>
+                                        <i class='bi bi-pencil-square'></i>
+                                    </a>
+                                </td>
+                                <td class='text-center'>
+                                    <a href='<?= URLROOT . "/countries/delete/$country->Id" ?>'>
+                                        <i class='bi bi-trash'></i>
+                                    </a>
+                                </td>            
+                                </tr>
+                    <?php } } ?>
                 </tbody>
             </table>
             <a href="<?= URLROOT; ?>/homepages/index">Homepage</a>

@@ -25,11 +25,9 @@ class Countries extends BaseController
             $data['message'] = "Er is een fout opgetreden";
             $data['messageColor'] = "danger";
             $data['messageVisibility'] = "flex";
+            $data['dataRows'] = NULL;
 
-            $dataRows = NULL;
-            $data['dataRows'] = $dataRows;
-
-            header('Refresh:2; ' . URLROOT . '/homepages/index');
+            header('Refresh:3; ' . URLROOT . '/homepages/index');
         } else {
             $data['dataRows'] = $countries;
         }
@@ -95,14 +93,24 @@ class Countries extends BaseController
                  */
                 $result = $this->countryModel->createCountry($_POST);
 
-                $data['messageVisibility'] = '';
-                $data['message'] = FORM_SUCCESS;
-                $data['messageColor'] = FORM_SUCCESS_COLOR;
+                if (is_null($result)) {
+                    $data['message'] = "Er is een fout opgetreden, opslaan is nu niet mogelijk";
+                    $data['messageColor'] = "danger";
+                    $data['messageVisibility'] = "flex";       
+                    $data['dataRows'] = NULL;
+        
+                    header('Refresh:3; ' . URLROOT . '/countries/create');
+                } else {
+                    $data['messageVisibility'] = '';
+                    $data['message'] = FORM_SUCCESS;
+                    $data['messageColor'] = FORM_SUCCESS_COLOR;
+    
+                    /**
+                     * Na het opslaan van de formulier wordt de gebruiker teruggeleid naar de index-pagina
+                     */
+                    header("Refresh:3; url=" . URLROOT . "/countries/index");
 
-                /**
-                 * Na het opslaan van de formulier wordt de gebruiker teruggeleid naar de index-pagina
-                 */
-                header("Refresh:3; url=" . URLROOT . "/countries/index");
+                }
             } else {
                 $data['messageVisibility'] = '';
                 $data['message'] = FORM_DANGER;
@@ -157,19 +165,22 @@ class Countries extends BaseController
 
     public function update($countryId)
     {
-        $result = $this->countryModel->getCountry($countryId);
 
+        $result = $this->countryModel->getCountry($countryId) ?? header('Refresh:3; ' . URLROOT . '/countries/index');
+        
+        
         $data = [
             'title' => 'Wijzig Land',
-            'message' => '',
-            'messageColor' => '',
-            'messageVisibility' => 'none',
-            'Id' => $result->Id,
-            'country' => $result->Name,
-            'capitalCity' => $result->CapitalCity,
-            'continent' => $result->Continent,
-            'population' => $result->Population,
-            'zipcode' => $result->Zipcode,
+            'message' => is_null($result) ? 'Er is een fout opgetreden, wijzigen is nu niet mogelijk' : '',
+            'messageColor' => is_null($result) ? 'danger' : '',
+            'messageVisibility' => is_null($result) ? 'flex': 'none',
+            'buttonDisabled' => is_null($result) ? 'disabled' : '',
+            'Id' => $result->Id ?? '-',
+            'country' => $result->Name ?? '-',
+            'capitalCity' => $result->CapitalCity ?? '-',
+            'continent' => $result->Continent ?? '-',
+            'population' => $result->Population ?? '-',
+            'zipcode' => $result->Zipcode ?? '-',
             'countryError' => '',
             'capitalCityError' => '',
             'continentError' => '',
@@ -222,17 +233,6 @@ class Countries extends BaseController
                 $data['messageColor'] = FORM_DANGER_COLOR;
             }           
         }
-
-        
-        // $data = [
-        //     'title' => 'Wijzig land',
-        //     'Id' => $result->Id,
-        //     'country' => $result->Name,
-        //     'capitalCity' => $result->CapitalCity,
-        //     'continent' => $result->Continent,
-        //     'population' => $result->Population,
-        //     'zipcode' => $result->Zipcode
-        // ];
 
         $this->view('countries/update', $data);
     }
