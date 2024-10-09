@@ -1,7 +1,7 @@
 <?php require_once APPROOT . '/views/includes/header.php'; ?>
 
     <div class="container">
-        <div class="row" style="display:<?= $data['messageVisibility']; ?>">
+        <div class="row mt-3" style="display:<?= $data['messageVisibility']; ?>">
             <div class="col-3"></div>
             <div class="col-6">
                 <div class="alert alert-<?= $data['messageColor']; ?>" role="alert">
@@ -66,7 +66,7 @@
                     <input type="hidden" name="Id" value="<?= $data['Id']; ?>">
 
                     <div class="d-grid">
-                        <button type="submit" class="btn btn-success">Sla op</button>
+                        <button type="submit" class="btn btn-success" <?= $data['buttonDisabled']; ?>>Sla op</button>
                     </div>
                 </form>
             </div>

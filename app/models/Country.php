@@ -22,7 +22,7 @@ class Country
             /**
              * Maak een sql-query die de gewenste informatie opvraagt uit de database
              */
-            $sql = 'CALL speadCountries()';
+            $sql = 'CALL spReadCountries()';
 
             /**
              * Prepare de query voor het PDO object
@@ -76,8 +76,10 @@ class Country
              */
             return $this->db->execute();
         } catch (Exception $e) {
-            // Behandel de uitzondering hier, bijvoorbeeld loggen of een foutmelding weergeven
-            echo 'Er is een fout opgetreden: ' . $e->getMessage();
+            /**
+             * Log de error in de functie logger()
+             */
+            logger(__LINE__, __METHOD__, __FILE__, $e->getMessage());  
         }
     }
 
@@ -87,16 +89,19 @@ class Country
             /**
              * Stored procedure voor opvragen van record
              */
-            $sql = 'CALL spReadCountryById(:id)';
+            $sql = 'CALL speadCountryById(:id)';
     
             $this->db->query($sql);
     
             $this->db->bind(':id', $countryId, PDO::PARAM_INT);
     
             return $this->db->single();
+
         } catch (Exception $e) {
-            // Behandel de uitzondering hier, bijvoorbeeld loggen of een foutmelding weergeven
-            echo 'Er is een fout opgetreden: ' . $e->getMessage();
+            /**
+             * Log de error in de functie logger()
+             */
+            logger(__LINE__, __METHOD__, __FILE__, $e->getMessage());  
         }
     }
 
@@ -153,7 +158,8 @@ class Country
             /**
              * Voer de query uit
              */ 
-            return $this->db->execute();            
+            return $this->db->execute(); 
+
         } catch (Exception $e) {
             // Behandel de uitzondering hier, bijvoorbeeld loggen of een foutmelding weergeven
             echo 'Er is een fout opgetreden: ' . $e->getMessage();
