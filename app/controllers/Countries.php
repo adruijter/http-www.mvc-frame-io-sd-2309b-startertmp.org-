@@ -196,8 +196,6 @@ class Countries extends BaseController
 
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            $this->countryModel->updateCountry($_POST);
-
              // var_dump($_POST);
              $data['country'] = trim($_POST['country']);
              $data['capitalCity'] = trim($_POST['capitalCity']);
@@ -223,16 +221,22 @@ class Countries extends BaseController
                  */
                 $result = $this->countryModel->updateCountry($_POST);
 
-                $data['messageVisibility'] = '';
-                $data['message'] = TEST;
-                $data['messageColor'] = FORM_SUCCESS_COLOR;
+                if (is_null($result)) {
+                    $data['messageVisibility'] = 'flex';
+                    $data['message'] = 'Het updaten is niet gelukt';
+                    $data['messageColor'] = FORM_DANGER_COLOR;
+                } else {
+                    $data['messageVisibility'] = 'flex';
+                    $data['message'] = TEST;
+                    $data['messageColor'] = FORM_SUCCESS_COLOR;
+                }                
 
                 /**
                  * Na het opslaan van de formulier wordt de gebruiker teruggeleid naar de index-pagina
                  */
                 header("Refresh:3; url=" . URLROOT . "/countries/index");
             } else {
-                $data['messageVisibility'] = '';
+                $data['messageVisibility'] = 'flex';
                 $data['message'] = FORM_DANGER;
                 $data['messageColor'] = FORM_DANGER_COLOR;
             }           
