@@ -11,7 +11,7 @@ define('DB_PASS', '');
 /**
  * De naam van de virtualhost
  */
-define('URLROOT', 'http://www.mvc-frame-io-sd-2309b-startertmp.org');
+define('URLROOT', 'http://www.mvc-framework-io-sd-2309b.nl');
 
 
 /**
