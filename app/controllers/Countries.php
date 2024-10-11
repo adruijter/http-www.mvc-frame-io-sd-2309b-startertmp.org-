@@ -248,18 +248,61 @@ class Countries extends BaseController
     public function delete($countryId)
     {
        /**
-        * Als het resultaat null is sturen we door naar index
+        * Probeer het record met het opgegeven land-ID te verwijderen uit de database.
+        * @param int $countryId Het ID van het land dat moet worden verwijderd.
+        * @return mixed $result Het resultaat van de verwijderingsoperatie, of null bij mislukking.
         */
-       $result = $this->countryModel->deleteCountry($countryId);
+        $result = $this->countryModel->deleteCountry($countryId);
 
-       $data = [
-        'message' => is_null($result) ? 'Er is een fout opgetreden, het record is niet verwijderd' : 'Het record is verwijderd. U wordt doorgestuurd naar de index-pagina.',
-        'messageColor' => is_null($result) ? 'danger' : 'success',
-        'messageVisibility' => is_null($result) ? 'flex': 'flex'
-       ];
+       /**
+        * Stel de waarden voor de data-array samen om aan de view te worden doorgegeven.
+        * Dit omvat een titel en een bericht dat feedback geeft over de verwijderingsoperatie.
+        * De messageColor bepaalt de stijl van het bericht (groen voor succes, rood voor fout).
+        * De messageVisibility is standaard op 'flex' ingesteld, wat zorgt voor zichtbaarheid van het bericht.
+        */
+        $data = [
+            'title' => 'Landen van de wereld',
+            'message' => is_null($result) ? 'Er is een fout opgetreden, het record is niet verwijderd' : 'Het record is succesvol verwijderd.',
+            'messageColor' => is_null($result) ? 'danger' : 'success',
+            'messageVisibility' => 'flex' // Het bericht wordt altijd zichtbaar getoond, ongeacht het resultaat.
+        ];
 
-       header("Refresh:3; " . URLROOT . "/countries/index");
+       /**
+        * Haal alle landen op uit de database om deze opnieuw weer te geven na de verwijderingsactie.
+        * @return array|null $countries De lijst met landen, of null als er iets misgaat.
+        */
+        $countries = $this->countryModel->getCountries();
 
-       $this->view('countries/delete', $data);
+       /**
+        * Controleer of het ophalen van landen succesvol was.
+        * Als er geen landen zijn opgehaald (null), wordt een foutbericht weergegeven en
+        * wordt de gebruiker omgeleid naar de homepage na 3 seconden.
+        * Als de landen succesvol zijn opgehaald, worden ze toegevoegd aan de data-array.
+        */
+        if (is_null($countries)) {
+            $data['message'] = "Er is een fout opgetreden, er kunnen geen landen worden getoond";
+            $data['messageColor'] = "danger";
+            $data['messageVisibility'] = "flex";
+            $data['dataRows'] = null; // Geen data om weer te geven
+
+            // Omleiding naar de homepage na 3 seconden in geval van fout
+            header('Refresh:3; ' . URLROOT . '/homepages/index');
+        } else {
+            $data['dataRows'] = $countries; // Toevoegen van de opgehaalde landen aan de data-array
+        }
+
+       /**
+        * Nadat de bewerking is voltooid, wordt de gebruiker omgeleid naar de overzichtspagina
+        * van landen (countries/index) na een korte vertraging van 3 seconden.
+        */
+        header("Refresh:3; " . URLROOT . "/countries/index");
+
+       /**
+        * Laad de view 'countries/index' en geef de data door die is samengesteld,
+        * inclusief eventuele berichten en de bijgewerkte lijst met landen.
+        */
+        $this->view('countries/index', $data);
     }
+
+    
 }
